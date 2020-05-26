@@ -42,23 +42,23 @@ def controlHeat(temperature, humidity):
     global heaterStatus
     report = ''
     if (int(temperature) <= temp_limit - temp_hysteresis):
-        report = 'Temperature is to low - {0:0.1f}°C limit {1:0.1f}°C - {2:0.1f}°C hysteresis'.format(temperature, temp_limit, temp_hysteresis)
+        report = 'Temperatūra per žema - {0:0.1f}°C limitas {1:0.1f}°C - {2:0.1f}°C histerezė'.format(temperature, temp_limit, temp_hysteresis)
         print(report)
         GPIO.output(ledHeater, GPIO.HIGH)
         heaterStatus = GPIO.HIGH
         sendMessage(report, active=0)
     if (int(temperature) >= temp_limit + temp_hysteresis):
-        report = 'Temperature is to high - {0:0.1f}°C limit {1:0.1f}°C + {2:0.1f}°C hysteresis'.format(temperature, temp_limit, temp_hysteresis)
+        report = 'Temperatūra per didelė - {0:0.1f}°C limitas {1:0.1f}°C + {2:0.1f}°C histerezė'.format(temperature, temp_limit, temp_hysteresis)
         print(report)
         GPIO.output(ledHeater, GPIO.LOW)
         heaterStatus = GPIO.LOW
         sendMessage(report, active=0)
     if (int(humidity) <= humi_limit - humi_hysteresis):
-        report = 'Humidity is to low - {0:0.1f}% limit {1:0.1f}% - {2:0.1f}% hysteresis'.format(humidity, humi_limit, humi_hysteresis)
+        report = 'Drėgmė per maža - {0:0.1f}% limitas {1:0.1f}% - {2:0.1f}% histerezė'.format(humidity, humi_limit, humi_hysteresis)
         print(report)
         sendMessage(report, active=0)
     if (int(humidity) > humi_limit + humi_hysteresis):
-        report = 'Humidity is to high - {0:0.1f}% limit {1:0.1f}% + {2:0.1f}% hysteresis'.format(humidity, humi_limit, humi_hysteresis)
+        report = 'Drėgmė per didele - {0:0.1f}% limitas {1:0.1f}% + {2:0.1f}% histerezė'.format(humidity, humi_limit, humi_hysteresis)
         print(report)
         sendMessage(report, active=0)
 
@@ -128,11 +128,11 @@ def dht():
                 temp_t = average(temp_mes)
                 heater_t = average(heater_mes)
                 if (heater_t >= 0.9 and temp_t < temp_limit - temp_hysteresis and temperature < temp_limit - temp_hysteresis):
-                    report = 'Temperature is not rising, past 100 measurements temp average {0:0.1f}°C limit {1:0.1f}°C, heater status {2:d}%'.format(temp_t, temp_limit + temp_hysteresis, int(heater_t * 100))
+                    report = 'Temperatūra nekyla, paskutinių 100 matavimų vidurkis {0:0.1f}°C limitas {1:0.1f}°C, šildymo statusas {2:d}%'.format(temp_t, temp_limit + temp_hysteresis, int(heater_t * 100))
                     sendMessage(report, active=1)
                     print(report)
                 elif (heater_t <= 0.1 and temp_t > temp_limit + temp_hysteresis and temperature > temp_limit + temp_hysteresis):
-                    report = 'Temperature is not decreasing, past 100 measurements temp average {0:0.1f}°C limit {1:0.1f}°C, heater status {2:d}%'.format(temp_t, temp_limit + temp_hysteresis, int(heater_t * 100))
+                    report = 'Temperatūra nemažėja, paskutinių 100 matavimų vidurkis {0:0.1f}°C limitas {1:0.1f}°C, šildymo statusas {2:d}%'.format(temp_t, temp_limit + temp_hysteresis, int(heater_t * 100))
                     sendMessage(report, active=1)
                 temp_mes = []
                 heater_mes = []
